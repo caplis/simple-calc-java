@@ -36,44 +36,49 @@ public class SimpleCalcClient {
         logger.log(Level.WARNING, msg, params);
     }
 
-    public Result add(Float... values) {
+    public Result add(Double... values) {
         Operands request = Operands.newBuilder().addAllOperands(Arrays.asList(values)).build();
         return stub.add(request);
     }
 
-    public Result sub(Float... values) {
+    public Result sub(Double... values) {
         Operands request = Operands.newBuilder().addAllOperands(Arrays.asList(values)).build();
         return stub.sub(request);
     }
 
-    public Result mult(Float... values) {
+    public Result mult(Double... values) {
         Operands request = Operands.newBuilder().addAllOperands(Arrays.asList(values)).build();
         return stub.mult(request);
     }
 
-    public Result div(Float... values) {
+    public Result div(Double... values) {
         Operands request = Operands.newBuilder().addAllOperands(Arrays.asList(values)).build();
         return stub.div(request);
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         SimpleCalcClient client = new SimpleCalcClient("localhost", 8080);
         Result res;
         try {
-            // intentional error...
-            res = client.div(10f, 2f, 2f);
+            res = client.div(10d, 2d, 2d, 2d, 2d, 2d, 2d, 2d, 2d);
             client.info("Result -> {0}", res.getValue());
         } catch (Exception e) {
             client.warning(e.getMessage());
         }
         try {
-            res = client.add(11f, 11f, 11f);
+            res = client.div(10d, 0d);
             client.info("Result -> {0}", res.getValue());
-            res = client.sub(10f, 2f, -3f);
+
+            res = client.add(11d, 11d, 11d);
             client.info("Result -> {0}", res.getValue());
-            res = client.mult(10f, 2f, 11f);
+
+            res = client.sub(10d, 2d, -3d);
             client.info("Result -> {0}", res.getValue());
-            res = client.div(10f, 2f);
+
+            res = client.mult(10d, 2d, 11d);
+            client.info("Result -> {0}", res.getValue());
+
+            res = client.div(10d, 3d);
             client.info("Result -> {0}", res.getValue());
         } catch (Exception e) {
             client.warning(e.getMessage());
